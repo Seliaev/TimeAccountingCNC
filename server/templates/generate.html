@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание заявки</title>
+</head>
+<body>
+    <h1>Создание заявки</h1>
+
+    <form method="post" action="/generate_qr">
+        <label for="data">Опишите проблему:</label>
+        <input type="text" name="data" required>
+        <button type="submit">Отправить</button>
+    </form>
+
+    {% if qr_data %}
+        <h2>Ваша заявка отправлена в ремонтный отдел.</h2>
+    {% endif %}
+
+    <br/>
+    <a href="{{ url_for('index') }}"><button>На главную</button></a>
+</body>
+</html>
