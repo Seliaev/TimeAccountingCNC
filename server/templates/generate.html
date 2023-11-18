@@ -2,23 +2,41 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Создание заявки</title>
+    <title>Создание QR-кода</title>
 </head>
 <body>
-    <h1>Создание заявки</h1>
+    <h1>Создание QR-код для станка</h1>
 
     <form method="post" action="/generate_qr">
-        <label for="data">Опишите проблему:</label>
-        <input type="text" name="data" required>
-        <button type="submit">Отправить</button>
+        <label for="name">Название станка:</label>
+        <input type="text" name="name" required>
+        <button type="submit">Создать</button>
     </form>
+    <div id="printSection">
+        <br/>
+    {% if qr_name and qr_path %}
+        <div align="center">
+            <h2>QR-код для станка {{ qr_name }}<br/></h2>
+            <img src="/static{{ qr_path }}" alt="{{ qr_name }}">
 
-    {% if qr_data %}
-        <h2>Ваша заявка отправлена в ремонтный отдел.</h2>
+        </div>
     {% endif %}
-
-    <br/>
+    </div>
+    {% if qr_name and qr_path %}
+    <div align="center"><a class="print-doc" href="javascript:printContent();"><button>Распечатать</button></a></div>
+    {% endif %}
     <a href="{{ url_for('index') }}"><button>На главную</button></a>
+
+    <script>
+        function printContent() {
+            var printSection = document.getElementById("printSection").innerHTML;
+            var originalContent = document.body.innerHTML;
+            document.body.innerHTML = printSection;
+            window.print();
+            document.body.innerHTML = originalContent;
+        }
+    </script>
 </body>
 </html>

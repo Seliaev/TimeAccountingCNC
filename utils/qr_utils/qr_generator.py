@@ -23,7 +23,7 @@ class QRGenerator:
         qr_generator = QRGenerator(directory, data) | QRGenerator(directory, data)
     """
     from typing import Dict
-    __slots__ = ('__qr', '__data', '__img')
+    __slots__ = ('__qr', '__data', '__img', '__file_name')
 
     def __init__(self, directory: str, data: Dict) -> None:
         from qrcode import QRCode
@@ -37,5 +37,13 @@ class QRGenerator:
         self.__qr.add_data(data)
         self.__qr.make(fit=True)
         self.__img = self.__qr.make_image(fill_color="black", back_color="white")
-        self.__img.save(f"{directory}my_qrcode_{data['name']}.png")
+        self.__file_name = f"{directory}my_qrcode_{data['name']}.png"
+        self.__img.save(self.__file_name)
+
+    def get_filename(self):
+        return self.__file_name[6:]
+
+
+
+
 

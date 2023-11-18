@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр заявки</title>
+</head>
+<body>
+    {% if not return_status %}
+        <h1>Просмотр заявки</h1>
+
+        {% if files_in_uploads %}
+            <h2>Состояние станка:</h2>
+            <form method="post" action="{{ url_for('task_page') }}" enctype="multipart/form-data">
+                <label for="selected_file">Выберите файл:</label>
+                <select name="selected_file">
+                    {% for file in files_in_uploads %}
+                        <option value="{{ file }}">{{ file }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Отобразить информацию</button>
+            </form>
+
+        {% if return_data %}
+            <div>
+                {{ return_data | safe }}
+                <form method="post" action="{{ url_for('edit_status') }}">
+                    <input type="hidden" name="name_machine" value="{{ name_machine }}">
+                    <label for="new_status">Введите новый статус:</label>
+                    <input type="text" name="new_status" required>
+                    <button type="submit">Редактировать статус</button>
+                </form>
+            </div>
+        {% endif %}
+        {% else %}
+            <p>Заявок нет.</p>
+        {% endif %}
+    {% else %}
+            <p>{{ return_status }}</p>
+    {% endif %}
+
+    <br/>
+    <a href="{{ url_for('index') }}"><button>На главную</button></a>
+</body>
+</html>

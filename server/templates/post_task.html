@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отправка заявки на ремонт</title>
+</head>
+<body>
+    <h1>Отправка заявки на ремонт</h1>
+    {% if not return_status %}
+        {% if not name_machine %}
+            <form method="post" action="{{ url_for('post_task') }}" enctype="multipart/form-data">
+                <label for="qr_image">Сканируйте/Загрузите QR со станка:</label>
+                <input type="file" name="qr_image" accept=".png, .jpg, .jpeg">
+                <button type="submit">Заполнить заявку</button>
+            </form>
+        {% else %}
+        <div>
+            <p>Станок: {{ name_machine | safe }}</p>
+            <form method="post" action="{{ url_for('set_task') }}">
+                <input type="hidden" name="name_machine" value="{{ name_machine }}">
+                <label for="new_status">Статус станка:</label>
+                <input type="text" name="new_status" required>
+                <button type="submit">Отправить заявку</button>
+            </form>
+        </div>
+        {% endif %}
+    {% else %}
+            <p>{{ return_status }}</p>
+    {% endif %}
+    <br/>
+    <a href="{{ url_for('index') }}"><button>На главную</button></a>
+
+</body>
+</html>
