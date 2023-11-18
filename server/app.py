@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from database.base import db
 from database.db_utils import get_machine, create_machine, change_task
 from utils.qr_utils.qr_reader import QRReader
@@ -8,7 +8,7 @@ import os
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'static/uploads'
+UPLOAD_FOLDER = 'static/uploads' # Каталог для хранения сгенерированных картинок с QR-кодами
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config.from_object(Config)
 db.init_app(app)
@@ -85,31 +85,45 @@ def generate_qr() -> str:
 
 
 @app.route("/task_page", methods=['GET', 'POST'])
-def task_page():
-    uploads_path = os.path.join(os.getcwd(), 'static', 'uploads')
-    files_in_uploads = os.listdir(uploads_path)
+def task_page() -> str:
+    """
+    Страница для просмотра заявки.
 
-    if request.method == 'POST':
-        selected_file = request.form.get('selected_file')
-        if selected_file:
-            name_machine = selected_file.split('_')[-1][:-4]
-            task = get_machine(name_machine)
-            if task:
-                return_data = f"""
-                    Станок: {task.name}<br/>
-                    Дата: {task.date.strftime('%Y-%m-%d')}<br/>
-                    Время: {task.date.strftime('%H:%M:%S')}<br/>
-                    Статус: {task.status}<br/>
-                """
-            else:
-                return_data = f"Станок с именем {name_machine} не найден в базе данных."
-            return render_template("task_page.html", files_in_uploads=files_in_uploads, return_data=return_data, name_machine=(task.name or None))
-
-    return render_template("task_page.html", files_in_uploads=files_in_uploads)
+    Returns:
+        str: HTML-страница с информацией о задаче.
+    """
+    try:
+        uploads_path = os.path.join(os.getcwd(), 'static', 'uploads')
+        files_in_uploads = os.listdir(uploads_path)
+        if request.method == 'POST':
+            selected_file = request.form.get('selected_file')
+            if selected_file:
+                name_machine = selected_file.split('_')[-1][:-4]
+                task = get_machine(name_machine)
+                if task:
+                    return_data = f"""
+                        Станок: {task.name}<br/>
+                        Дата: {task.date.strftime('%Y-%m-%d')}<br/>
+                        Время: {task.date.strftime('%H:%M:%S')}<br/>
+                        Статус: {task.status}<br/>
+                    """
+                else:
+                    return_data = f"Станок с именем {name_machine} не найден в базе данных."
+                return render_template("task_page.html", files_in_uploads=files_in_uploads, return_data=return_data, name_machine=(task.name or None))
+        return render_template("task_page.html", files_in_uploads=files_in_uploads)
+    except FileNotFoundError:
+        files_not_found = f"В базе нет станков"
+        return render_template("task_page.html", files_not_found=files_not_found)
 
 
 @app.route("/edit_status", methods=['POST'])
-def edit_status():
+def edit_status() -> str:
+    """
+    Страница для редактирования статуса заявки.
+
+    Returns:
+        str: HTML-страница с результатом смены статуса заявки.
+    """
     return_status = "Ошибка: Некорректный запрос."
     if request.method == 'POST':
         name_machine = request.form.get('name_machine')
