@@ -8,9 +8,9 @@
 </head>
 <body>
     <h1>Заявки и их обработка</h1>
-
-    <a href="{{ url_for('post_task') }}"><button>Отправить заявку</button></a>
-    <a href="{{ url_for('task_page') }}"><button>Прочитать заявку</button></a>
-    <a href="{{ url_for('generate_qr') }}"><button>Создать QR</button></a>
+    <a href="{{ url_for('time_statistics.time_statistics') }}"><button>Статистика</button></a>
+    <a href="{{ url_for('post_task.post_task') }}"><button>Отправить заявку</button></a>
+    <a href="{{ url_for('task_page.task_page') }}"><button>Прочитать заявку</button></a>
+    <a href="{{ url_for('generate_qr.generate_qr') }}"><button>Создать QR</button></a>
 </body>
 </html>

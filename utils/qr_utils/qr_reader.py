@@ -23,7 +23,6 @@ class QRReader:
 
     def __init__(self, image_path):
         from cv2 import imread, QRCodeDetector
-        print(image_path)
         self.__image_path = imread(image_path)
         self.__detector = QRCodeDetector()
         self.__value = self.__detector.detectAndDecode(self.__image_path)

@@ -19,15 +19,14 @@
     {% if qr_name and qr_path %}
         <div align="center">
             <h2>QR-код для станка {{ qr_name }}<br/></h2>
-            <img src="/static{{ qr_path }}" alt="{{ qr_name }}">
-
+            <img src="{{ qr_path }}" alt="{{ qr_name }}">
         </div>
     {% endif %}
     </div>
     {% if qr_name and qr_path %}
     <div align="center"><a class="print-doc" href="javascript:printContent();"><button>Распечатать</button></a></div>
     {% endif %}
-    <a href="{{ url_for('index') }}"><button>На главную</button></a>
+    <a href="{{ url_for('index.index') }}"><button>На главную</button></a>
 
     <script>
         function printContent() {

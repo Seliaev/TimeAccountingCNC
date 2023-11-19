@@ -1,9 +1,11 @@
-from database.base import db, Task
+from datetime import datetime
+from typing import List
 
+from database.base import db, Task
 
 def create_machine(name_machine: str) -> None:
     """
-    Создает новый станок в базе данных.
+    Создает новый станок в базе данных или обновляет время существующего станка.
 
     Args:
         name_machine (str): Название станка.
@@ -11,9 +13,15 @@ def create_machine(name_machine: str) -> None:
     Example:
         create_machine('Новый Станок')
     """
-    task = Task(name=name_machine)
-    db.session.add(task)
-    db.session.commit()
+    existing_task = Task.query.filter_by(name=name_machine).first()
+
+    if existing_task:
+        existing_task.date = datetime.now()
+        db.session.commit()
+    else:
+        new_task = Task(name=name_machine)
+        db.session.add(new_task)
+        db.session.commit()
 
 
 def change_task(name_machine: str, new_status: str) -> bool:
@@ -61,4 +69,17 @@ def get_machine(name_machine: str) -> Task or bool:
     else:
         return False
 
+
+def get_all_machines() -> List[Task]:
+    """
+    Получает все записи о станках из базы данных.
+
+    Returns:
+        List[Task]: Список объектов информации о станках.
+
+    Example:
+        all_machines = get_all_machines()
+    """
+    machines = Task.query.all()
+    return machines
 

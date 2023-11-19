@@ -16,3 +16,15 @@ h1 {
 button {
     margin: 10px;
 }
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 15px;  /* Измените значение, чтобы установить желаемый отступ */
+    text-align: left;
+    border: 1px solid #ddd;
+}

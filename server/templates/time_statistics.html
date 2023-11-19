@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика времени</title>
+</head>
+<body>
+    <h1>Статистика времени работы или простоя станков</h1>
+    <br/>
+    <a href="{{ url_for('index.index') }}"><button>На главную</button></a>
+    <br/>
+    {% if not files_not_found %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Станок</th>
+                    <th>Статус</th>
+                    <th>Время в текущем статусе</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.name }}</td>
+                        <td>{{ task.status }}</td>
+                        <td>{{ task.elapsed_time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        {{ files_not_found }}
+    {% endif %}
+
+
+</body>
+</html>
