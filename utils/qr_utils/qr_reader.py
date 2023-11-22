@@ -27,8 +27,9 @@ class QRReader:
         self.__detector = QRCodeDetector()
         self.__value = self.__detector.detectAndDecode(self.__image_path)
 
-    def __str__(self) -> Dict:
+    def __str__(self) -> Dict | None:
         from ast import literal_eval
-        return literal_eval(self.__value[0])
-
-
+        try:
+            return literal_eval(self.__value[0])
+        except SyntaxError:
+            return None
