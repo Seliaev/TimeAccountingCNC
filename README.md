@@ -28,6 +28,8 @@ opencv-python==4.8.1.78
 qrcode==7.4.2
 ```
 
+Демо версия с выводом в html файл.
+http://45.132.1.65:5333/
 
 
 # Status and Operation Time of Machines
@@ -59,3 +61,6 @@ Flask-SQLAlchemy==3.1.1
 opencv-python==4.8.1.78
 qrcode==7.4.2
 ```
+
+Demo version with output to an html file.
+http://45.132.1.65:5333/
