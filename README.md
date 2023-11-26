@@ -29,7 +29,7 @@ qrcode==7.4.2
 ```
 
 Демо версия с выводом в html файл.
-http://aicat.ru:5334/
+[http://45.132.1.65:5334/](http://45.132.1.65:5334/)
 
 
 # Status and Operation Time of Machines
